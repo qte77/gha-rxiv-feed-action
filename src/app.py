@@ -9,7 +9,12 @@ default. All side-effects (env reads, filesystem, network) live inside
 import json
 from os import getenv
 
-from src.fetchers.arxiv import build_date_query, get_parsed_output, get_total_results
+from src.fetchers.arxiv import (
+    build_date_query,
+    build_search_query,
+    get_parsed_output,
+    get_total_results,
+)
 from src.fetchers.arxiv_citations import enrich_row, get_citations
 from src.fetchers.biorxiv import (
     build_date_range,
@@ -142,7 +147,7 @@ def _run_arxiv(
 
     date_query = build_date_query(date_from=date_from or None, date_to=date_to or None)
     effective_max_age = None if date_query else max_age_days
-    search_query = f"{topics}{date_query}"
+    search_query = build_search_query(topics, date_query)
 
     existing_ids = load_all_existing_ids(out_dir, dedup_cols=(3, 4))
     print(f"Loaded {len(existing_ids)} existing paper IDs from {out_dir}")
