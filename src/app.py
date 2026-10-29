@@ -71,7 +71,11 @@ def _run_biorxiv(
 
     while True:
         url = f"{base_url}/{start_date}/{end_date}/{cursor}/json"
-        data = get_api_response(url)
+        try:
+            data = get_api_response(url)
+        except RuntimeError as e:
+            print(f"API error at cursor={cursor}, stopping: {e}")
+            break
         payload = json.loads(data)
         weekly = parse_biorxiv_json(data, categories)
         for week, rows in weekly.items():
