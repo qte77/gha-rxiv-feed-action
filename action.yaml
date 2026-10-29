@@ -97,6 +97,16 @@ runs:
         uv sync --frozen --no-dev --project "${{ github.action_path }}"
         uv run --project "${{ github.action_path }}" python "${{ github.action_path }}/src/app.py"
 
+    - name: Render weekly SVG
+      shell: bash
+      env:
+        OUT_DIR: ${{ inputs.OUT_DIR }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        if [ -d "$OUT_DIR" ]; then
+          bash "$ACTION_PATH/scripts/weekly_svg.sh" "$OUT_DIR" "$OUT_DIR/weekly.svg"
+        fi
+
     - name: Commit via PR if changes
       shell: bash
       env:
