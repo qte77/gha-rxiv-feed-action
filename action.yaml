@@ -21,11 +21,12 @@ inputs:
     default: "cat:cs.CV+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.AI+OR+cat:cs.NE+OR+cat:cs.RO"
   INCLUDE_CITATIONS:
     description: >-
-      Enrich arXiv rows with Semantic Scholar citation counts (true/false).
-      Adds Citations/References/InfluentialCitations columns. arXiv only.
+      Enrich new rows with Semantic Scholar citation counts (true/false).
+      Adds Citations/References/InfluentialCitations columns. arXiv
+      (ARXIV: lookup), bioRxiv and medRxiv (DOI: lookup).
     default: "false"
   SEMANTIC_SCHOLAR_API_KEY:
-    description: "Optional Semantic Scholar API key for higher rate limits."
+    description: "Optional Semantic Scholar API key, sent as the x-api-key header."
     default: ""
   MAX_AGE_DAYS:
     description: "arXiv only: skip papers published more than N days ago."
