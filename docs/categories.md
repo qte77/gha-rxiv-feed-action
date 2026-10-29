@@ -164,7 +164,8 @@ Social and Behavioral Sciences
 
 The 228 depth-1 children include `Cognitive Neuroscience`, `Clinical
 Psychology`, `Behavioral Economics`, `Computational Modeling`, and similar.
-Fetch the full list via the source URL above when implementing.
+Fetch the full list via the source URL above. `SERVER=psyarxiv` matches
+`CATEGORIES` against these top-level subjects only.
 
 ## chemRxiv (unreachable, pending)
 
