@@ -1,11 +1,12 @@
 ---
 name: Tag and Release
 
-# Step 2 of 2 of the release pipeline (see docs: README "Versioning").
-# Fires when a version bump (from `bump-version.yaml`) is merged to main.
-# Tags the merge commit `vX.Y.Z` and publishes the GitHub Release from
-# the matching CHANGELOG section. The tag therefore always lives on
-# `main`'s history (no drift). No floating major tag is created.
+# Step 2 of 2 of the release pipeline (see README "Versioning").
+# Fires when a version bump (from `bump-version.yaml`) is merged to main:
+# tags the merge commit `vX.Y.Z` and publishes the GitHub Release from the
+# matching CHANGELOG section, via the qte77/.github reusables. Both
+# reusables abort rather than overwrite an existing tag or release, and
+# never delete tags (tag immutability, qte77/.github#23).
 #
 # NOTE: a push made by GITHUB_TOKEN does not re-trigger workflows, so the
 # bump PR must be merged with user/PAT credentials for this to fire.
@@ -19,15 +20,21 @@ permissions:
   contents: write
 
 jobs:
-  tag_release:
+  # The reusable tag workflow exposes no outputs, so detect the bump here to
+  # gate and parameterize the publish step (and skip it on non-version
+  # pyproject.toml edits).
+  detect:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      bumped: ${{ steps.detect.outputs.bumped }}
+      version: ${{ steps.detect.outputs.version }}
     steps:
-
-      - name: Checkout repo
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 2
-
+          persist-credentials: false
       - name: Detect version change
         id: detect
         run: |
@@ -42,31 +49,19 @@ jobs:
             echo "version=$new" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Create tag and GitHub Release
-        if: steps.detect.outputs.bumped == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ steps.detect.outputs.version }}
-        run: |
-          tag="v$VERSION"
-          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
-            echo "tag $tag already exists; aborting"
-            exit 1
-          fi
-          git config user.name "tag-release"
-          git config user.email "tag-release@qte77.gha"
-          git tag -a -m "Release $tag" "$tag"
-          git push origin "$tag"
+  tag:
+    needs: detect
+    if: needs.detect.outputs.bumped == 'true'
+    uses: qte77/.github/.github/workflows/tag-release.yml@86d329865ce47b43b6e745084c92032b41dcab1b  # 2026-10-24
+    permissions:
+      contents: write
 
-          # Release notes = this version's CHANGELOG section (header excluded,
-          # stop at the next version header or the `---` separator).
-          notes=$(awk -v ver="$VERSION" '
-            index($0, "## [" ver "]") == 1 { capture = 1; next }
-            capture && (index($0, "## [") == 1 || $0 == "---") { exit }
-            capture { print }
-          ' CHANGELOG.md)
-          if [ -z "$(printf '%s' "$notes" | tr -d '[:space:]')" ]; then
-            gh release create "$tag" --title "$tag" --generate-notes
-          else
-            gh release create "$tag" --title "$tag" --notes "$notes"
-          fi
+  publish:
+    needs: [detect, tag]
+    if: needs.detect.outputs.bumped == 'true'
+    uses: qte77/.github/.github/workflows/publish-release.yml@86d329865ce47b43b6e745084c92032b41dcab1b  # 2026-10-24
+    with:
+      tag: v${{ needs.detect.outputs.version }}
+    permissions:
+      contents: write
+...

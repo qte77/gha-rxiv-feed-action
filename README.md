@@ -99,7 +99,15 @@ Releases are automated in two steps: run the **Bump version** workflow
 PR, then merge it. Merging changes `pyproject.toml`, which triggers **Tag
 and Release** to tag `vX.Y.Z` on the `main` merge commit and publish the
 GitHub Release from the matching [`CHANGELOG.md`](CHANGELOG.md) section.
-No moving/major tag is created.
+No moving/major tag is created. **Publish Release** (`workflow_dispatch`)
+re-publishes a release for an existing tag if the automatic step failed.
+
+All three are thin callers of the
+[qte77/.github reusable workflows](https://github.com/qte77/.github#reusable-workflows),
+SHA-pinned. Tags and releases are never deleted or overwritten. Requires
+the repository setting Settings → Actions → General → "Allow GitHub
+Actions to create and approve pull requests", and the bump PR must be merged by a user (a
+`GITHUB_TOKEN` merge does not trigger **Tag and Release**).
 
 ## Inputs
 
