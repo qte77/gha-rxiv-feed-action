@@ -58,12 +58,18 @@ def _validate_url(url: str) -> None:
         raise ValueError(f"Host not in allowlist: {parts.hostname}")
 
 
-def get_api_response(url: str, max_retries: int = 3, backoff_base: float = 2.0) -> bytes:
+def get_api_response(
+    url: str,
+    max_retries: int = 3,
+    backoff_base: float = 2.0,
+    headers: dict | None = None,
+    timeout: float = 120,
+) -> bytes:
     """Fetch URL with retry/backoff. Raises RuntimeError after max_retries."""
     _validate_url(url)
     for attempt in range(max_retries):
         try:
-            resp = requests.get(url, timeout=120)
+            resp = requests.get(url, headers=headers, timeout=timeout)
             resp.raise_for_status()
             return resp.content
         except requests.RequestException:

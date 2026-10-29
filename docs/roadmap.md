@@ -11,10 +11,10 @@ bets.
   `Categories`→`Category`) to match the canonical bioRxiv/medRxiv
   schema and unblock downstream consumers (paperverse, eval action).
   Breaking → v0.3.0. Urgent (issue #107).
-- **Citation enrichment for bioRxiv/medRxiv DOIs** via Semantic Scholar
+- ~~**Citation enrichment for bioRxiv/medRxiv DOIs** via Semantic Scholar
   `DOI:` lookups — feature parity with arXiv. Also wires the currently
   no-op `SEMANTIC_SCHOLAR_API_KEY` and routes the call through the URL
-  allowlist (issue #105).
+  allowlist (issue #105).~~
 - **Week-start stub CSV** — publish a header-only CSV on Monday so
   consumers polling the in-progress week get an empty file, not a 404
   (issue #134).

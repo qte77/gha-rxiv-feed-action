@@ -52,6 +52,8 @@ def _run_biorxiv(
     categories: set,
     date_from: str = "",
     date_to: str = "",
+    include_citations: bool = False,
+    api_key: str = "",
 ) -> None:
     """Fetch bioRxiv / medRxiv weekly stats and write per-week CSVs."""
     pruned = prune_existing_csvs(out_dir, categories)
@@ -80,11 +82,17 @@ def _run_biorxiv(
             break
         cursor += page_size
 
+    header = _BIORXIV_HEADER + (_ARXIV_CITATIONS_HEADER if include_citations else [])
     for (year, week), rows in all_weeks.items():
         new_rows = filter_new_rows(rows, existing_ids)
         if new_rows:
+            if include_citations:
+                new_rows = [
+                    enrich_row(row, get_citations(f"DOI:{row[2]}", api_key=api_key))
+                    for row in new_rows
+                ]
             year_dir = f"{out_dir}/{year}"
-            write_file(new_rows, str(week), year_dir, _BIORXIV_HEADER)
+            write_file(new_rows, str(week), year_dir, header)
             existing_ids.update((row[2], str(row[3])) for row in new_rows)
             print(f"Wrote {year}/week {week}: {len(new_rows)} new papers")
 
@@ -138,6 +146,7 @@ def _run_arxiv(
     date_to: str,
     page_size: int,
     max_pages: int,
+    api_key: str = "",
 ) -> None:
     """Fetch arXiv stats by topic, optionally enrich with citation counts."""
     import re
@@ -165,7 +174,10 @@ def _run_arxiv(
         if not new_rows:
             continue
         if include_citations:
-            new_rows = [enrich_row(row, get_citations(row[3])) for row in new_rows]
+            new_rows = [
+                enrich_row(row, get_citations(f"ARXIV:{row[3]}", api_key=api_key))
+                for row in new_rows
+            ]
         year_dir = f"{out_dir}/{year}"
         write_file(new_rows, str(week), year_dir, header, dedup_cols=(3, 4))
         existing_ids.update((row[3], str(row[4])) for row in new_rows)
@@ -198,18 +210,21 @@ def main() -> None:
 
     server = env.get("SERVER") or "arxiv"
     out_dir = env.get("OUT_DIR") or "./data/arxiv"
+    include_citations = env.get("INCLUDE_CITATIONS", "false").lower() == "true"
+    api_key = getenv("SEMANTIC_SCHOLAR_API_KEY") or ""
 
     if server == "arxiv":
         _run_arxiv(
             out_dir=out_dir,
             topics=env.get("TOPICS")
             or "cat:cs.CV+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.AI+OR+cat:cs.NE+OR+cat:cs.RO",
-            include_citations=env.get("INCLUDE_CITATIONS", "false").lower() == "true",
+            include_citations=include_citations,
             max_age_days=int(env.get("MAX_AGE_DAYS") or "7"),
             date_from=env.get("DATE_FROM", ""),
             date_to=env.get("DATE_TO", ""),
             page_size=int(env.get("PAGE_SIZE") or "1000"),
             max_pages=int(env.get("MAX_PAGES") or "5"),
+            api_key=api_key,
         )
     else:
         _run_biorxiv(
@@ -219,6 +234,8 @@ def main() -> None:
             categories={c.strip() for c in env.get("CATEGORIES", "").split(",") if c.strip()},
             date_from=env.get("DATE_FROM", ""),
             date_to=env.get("DATE_TO", ""),
+            include_citations=include_citations,
+            api_key=api_key,
         )
 
 
