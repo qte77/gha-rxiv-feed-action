@@ -26,6 +26,7 @@ from src.fetchers.common import (
     filter_new_rows,
     get_api_response,
     load_all_existing_ids,
+    seed_week_stub,
     write_file,
 )
 from src.validation import validate_env
@@ -186,6 +187,7 @@ _ENV_KEYS = (
     "DATE_TO",
     "PAGE_SIZE",
     "MAX_PAGES",
+    "SEED_ONLY",
 )
 
 
@@ -198,6 +200,12 @@ def main() -> None:
 
     server = env.get("SERVER") or "arxiv"
     out_dir = env.get("OUT_DIR") or "./data/arxiv"
+
+    if env.get("SEED_ONLY") == "true":
+        header = _ARXIV_HEADER if server == "arxiv" else _BIORXIV_HEADER
+        if seed_week_stub(out_dir, header):
+            print(f"Seeded header-only CSV for the current ISO week in {out_dir}")
+        return
 
     if server == "arxiv":
         _run_arxiv(

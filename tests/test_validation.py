@@ -85,3 +85,9 @@ def test_topics_optional_for_biorxiv():
     """TOPICS is not required when SERVER is biorxiv/medrxiv."""
     validate_env({"OUT_DIR": "./data/biorxiv", "SERVER": "biorxiv"})
     validate_env({"OUT_DIR": "./data/medrxiv", "SERVER": "medrxiv"})
+
+
+def test_rejects_invalid_seed_only_flag():
+    """SEED_ONLY must be 'true' or 'false'."""
+    with pytest.raises(ValueError, match="SEED_ONLY"):
+        validate_env({"OUT_DIR": "./data", "SERVER": "biorxiv", "SEED_ONLY": "1"})

@@ -9,6 +9,7 @@ fetchers — not the stale ``START_RESULT``/``RESULT_COUNT``/
 from datetime import datetime
 
 _ALLOWED_SERVERS = frozenset({"biorxiv", "medrxiv", "arxiv"})
+_BOOL_VARS = ("INCLUDE_CITATIONS", "SEED_ONLY")
 _INTEGER_VARS = ("DAYS", "MAX_AGE_DAYS", "PAGE_SIZE", "MAX_PAGES")
 _DATE_VARS = ("DATE_FROM", "DATE_TO")
 
@@ -26,10 +27,11 @@ def _check_server(env: dict) -> str:
     return server
 
 
-def _check_include_citations(env: dict) -> None:
-    citations = env.get("INCLUDE_CITATIONS")
-    if citations is not None and citations not in ("true", "false"):
-        raise ValueError(f"INCLUDE_CITATIONS must be 'true' or 'false', got: {citations}")
+def _check_bool_vars(env: dict) -> None:
+    for key in _BOOL_VARS:
+        val = env.get(key)
+        if val is not None and val not in ("true", "false"):
+            raise ValueError(f"{key} must be 'true' or 'false', got: {val}")
 
 
 def _check_integer_var(key: str, val: str) -> None:
@@ -72,7 +74,7 @@ def validate_env(env: dict) -> None:
     """
     _check_out_dir(env)
     server = _check_server(env)
-    _check_include_citations(env)
+    _check_bool_vars(env)
     _check_integer_vars(env)
     _check_date_vars(env)
     _check_topics_for_arxiv(env, server)

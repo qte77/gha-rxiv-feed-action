@@ -117,6 +117,7 @@ No moving/major tag is created.
 | `MAX_PAGES` | No | `5` | Cap on arXiv pagination pages per run. arXiv only. |
 | `DAYS` | No | `1` | Number of days back to fetch. bioRxiv/medRxiv only. |
 | `CATEGORIES` | No | _(empty)_ | Comma-separated bioRxiv/medRxiv categories to keep. See [`docs/categories.md`](docs/categories.md). bioRxiv/medRxiv only. |
+| `SEED_ONLY` | No | `false` | When `true`, skip fetching and only write a header-only CSV for the current ISO week if absent (avoids a 404 for consumers polling the in-progress week). |
 | `TOKEN` | No | `${{ github.token }}` | GitHub token for pushing changes. |
 
 ## API

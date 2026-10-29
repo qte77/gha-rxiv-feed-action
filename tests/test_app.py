@@ -42,6 +42,31 @@ def test_main_dispatches_to_biorxiv(monkeypatch):
     mock_arxiv.assert_not_called()
 
 
+@pytest.mark.parametrize(
+    ("server", "expected_header"),
+    [("arxiv", "Published,ISOWeek,"), ("biorxiv", "Date,ISOWeek,"), ("medrxiv", "Date,ISOWeek,")],
+)
+def test_main_seed_only_writes_stub_and_skips_fetch(monkeypatch, tmp_path, server, expected_header):
+    """SEED_ONLY=true seeds this week's header-only CSV and never fetches."""
+    monkeypatch.setenv("SERVER", server)
+    monkeypatch.setenv("TOPICS", "cat:cs.AI")
+    monkeypatch.setenv("OUT_DIR", str(tmp_path))
+    monkeypatch.setenv("SEED_ONLY", "true")
+
+    with (
+        patch("src.app._run_arxiv", create=True) as mock_arxiv,
+        patch("src.app._run_biorxiv", create=True) as mock_bio,
+    ):
+        main()
+
+    mock_arxiv.assert_not_called()
+    mock_bio.assert_not_called()
+    (stub,) = tmp_path.glob("*/*.csv")
+    lines = stub.read_text(encoding="UTF8").splitlines()
+    assert len(lines) == 1
+    assert lines[0].startswith(expected_header)
+
+
 def test_main_raises_on_invalid_env(monkeypatch):
     """validate_env is called inside main; bad SERVER raises ValueError."""
     monkeypatch.setenv("SERVER", "chemrxiv")
