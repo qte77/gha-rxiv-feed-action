@@ -136,6 +136,9 @@ the validator boundary. Extend `_ALLOWED_HOSTS` in
 ## Data
 
 `data/<server>/<year>/<isoweek>.csv` — one CSV per ISO week per server.
+`data/<server>/weekly.svg` — papers-per-ISO-week bar chart (last 26 weeks),
+re-rendered by `scripts/weekly_svg.sh` after each fetch; follows the
+viewer's light/dark theme via `prefers-color-scheme`.
 The action appends new rows on each run and dedupes by
 `(DOI, Version)` for bioRxiv/medRxiv or `(ID, Version)` for arXiv.
 
