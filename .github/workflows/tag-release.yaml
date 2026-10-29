@@ -1,7 +1,7 @@
 ---
 name: Tag and Release
 
-# Step 2 of 2 of the release pipeline (see README "Versioning").
+# Step 2 of 2 of the release pipeline (see docs/usage.md "Versioning").
 # Fires when a version bump (from `bump-version.yaml`) is merged to main:
 # tags the merge commit `vX.Y.Z` and publishes the GitHub Release from the
 # matching CHANGELOG section, via the qte77/.github reusables. Both
