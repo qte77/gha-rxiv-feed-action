@@ -90,3 +90,9 @@ def test_topics_optional_for_biorxiv():
 def test_accepts_psyarxiv_server():
     """psyarxiv is an allowlisted SERVER and needs no TOPICS."""
     validate_env({"OUT_DIR": "./data/psyarxiv", "SERVER": "psyarxiv"})
+
+
+def test_rejects_invalid_seed_only_flag():
+    """SEED_ONLY must be 'true' or 'false'."""
+    with pytest.raises(ValueError, match="SEED_ONLY"):
+        validate_env({"OUT_DIR": "./data", "SERVER": "biorxiv", "SEED_ONLY": "1"})
