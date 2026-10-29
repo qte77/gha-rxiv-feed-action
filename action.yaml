@@ -1,6 +1,6 @@
 # https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
 name: "rxiv Feed Action"
-description: "Log a weekly CSV feed of papers from arXiv, bioRxiv, or medRxiv for selected categories."
+description: "Log a weekly CSV feed of papers from arXiv, bioRxiv, medRxiv, or psyArXiv for selected categories."
 author: "qte77"
 branding:
   icon: "file-text"
@@ -12,7 +12,7 @@ inputs:
       (e.g. ./data/arxiv) so multiple servers coexist without colliding.
     default: "./data/arxiv"
   SERVER:
-    description: "API server: arxiv, biorxiv, or medrxiv."
+    description: "API server: arxiv, biorxiv, medrxiv, or psyarxiv."
     default: "arxiv"
   TOPICS:
     description: >-
@@ -48,14 +48,14 @@ inputs:
     description: "arXiv only: cap on pagination pages per run."
     default: "5"
   DAYS:
-    description: "bioRxiv/medRxiv only: number of days back to fetch."
+    description: "bioRxiv/medRxiv/psyArXiv only: number of days back to fetch."
     default: "1"
   CATEGORIES:
     description: >-
-      bioRxiv/medRxiv only: comma-separated categories to keep
+      bioRxiv/medRxiv/psyArXiv only: comma-separated categories to keep
       (case-insensitive). Empty keeps all. Filtering is applied
       client-side; the bioRxiv /details/ API has no server-side category
-      filter.
+      filter. psyArXiv matches any top-level OSF subject.
     default: ""
   TOKEN:
     description: "GitHub token for pushing changes."

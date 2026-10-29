@@ -85,3 +85,8 @@ def test_topics_optional_for_biorxiv():
     """TOPICS is not required when SERVER is biorxiv/medrxiv."""
     validate_env({"OUT_DIR": "./data/biorxiv", "SERVER": "biorxiv"})
     validate_env({"OUT_DIR": "./data/medrxiv", "SERVER": "medrxiv"})
+
+
+def test_accepts_psyarxiv_server():
+    """psyarxiv is an allowlisted SERVER and needs no TOPICS."""
+    validate_env({"OUT_DIR": "./data/psyarxiv", "SERVER": "psyarxiv"})
