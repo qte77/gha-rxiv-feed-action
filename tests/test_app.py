@@ -69,3 +69,63 @@ def test_arxiv_paginate_returns_empty_on_probe_failure():
         )
 
     assert result == {}
+
+
+def test_main_dispatches_psyarxiv_to_osf_fetcher(monkeypatch):
+    """SERVER=psyarxiv routes to _run_osf with the psyarxiv provider."""
+    monkeypatch.setenv("SERVER", "psyarxiv")
+    monkeypatch.setenv("OUT_DIR", "./data/psyarxiv-test")
+    monkeypatch.setenv("CATEGORIES", "Neuroscience")
+
+    with (
+        patch("src.app._run_arxiv", create=True) as mock_arxiv,
+        patch("src.app._run_biorxiv", create=True) as mock_bio,
+        patch("src.app._run_osf", create=True) as mock_osf,
+    ):
+        main()
+
+    mock_osf.assert_called_once()
+    assert mock_osf.call_args.kwargs["provider"] == "psyarxiv"
+    assert mock_osf.call_args.kwargs["categories"] == {"Neuroscience"}
+    mock_arxiv.assert_not_called()
+    mock_bio.assert_not_called()
+
+
+def test_run_osf_follows_next_links_and_stops_on_api_error(tmp_path):
+    """_run_osf paginates via links.next and keeps rows when a later page fails."""
+    import json
+
+    from src.app import _run_osf
+
+    page = {
+        "data": [
+            {
+                "id": "abc12_v1",
+                "attributes": {
+                    "title": "T",
+                    "description": "D",
+                    "date_published": "2026-10-20T09:30:00.000000",
+                    "version": 1,
+                    "subjects": [[{"id": "s1", "text": "Neuroscience"}]],
+                },
+                "links": {"preprint_doi": "https://doi.org/10.31234/osf.io/abc12_v1"},
+            }
+        ],
+        "links": {"next": "https://api.osf.io/v2/preprints/?page=2"},
+    }
+
+    with patch(
+        "src.app.get_api_response", side_effect=[json.dumps(page).encode(), RuntimeError("boom")]
+    ) as mock_get:
+        _run_osf(
+            provider="psyarxiv",
+            out_dir=str(tmp_path),
+            days=7,
+            categories=set(),
+            date_from="2026-10-19",
+            date_to="2026-10-25",
+        )
+
+    assert mock_get.call_args_list[1].args[0] == "https://api.osf.io/v2/preprints/?page=2"
+    written = (tmp_path / "2026" / "43.csv").read_text(encoding="UTF8")
+    assert "10.31234/osf.io/abc12_v1" in written

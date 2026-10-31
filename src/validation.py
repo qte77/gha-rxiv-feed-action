@@ -8,7 +8,7 @@ fetchers — not the stale ``START_RESULT``/``RESULT_COUNT``/
 
 from datetime import datetime
 
-_ALLOWED_SERVERS = frozenset({"biorxiv", "medrxiv", "arxiv"})
+_ALLOWED_SERVERS = frozenset({"biorxiv", "medrxiv", "arxiv", "psyarxiv"})
 _INTEGER_VARS = ("DAYS", "MAX_AGE_DAYS", "PAGE_SIZE", "MAX_PAGES")
 _DATE_VARS = ("DATE_FROM", "DATE_TO")
 
