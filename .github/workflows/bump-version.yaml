@@ -1,11 +1,11 @@
 ---
 name: Bump version
 
-# Step 1 of 2 of the release pipeline (see docs: README "Versioning").
-# Bumps version files on a branch and opens a `chore(release)` PR.
-# Tagging + the GitHub Release are handled by `tag-release.yaml`, which
-# fires when this PR is merged to `main` (so the tag lands on the merge
-# commit, not a throwaway bump-branch commit). No floating major tag.
+# Step 1 of 2 of the release pipeline (see README "Versioning").
+# Thin caller of the qte77/.github reusable: bumps version files with
+# bump-my-version, makes a signed commit via the API on a bump branch, and
+# opens a `chore(release)` PR. Tagging + the GitHub Release are handled by
+# `tag-release.yaml` when that PR is merged to `main`.
 
 on:
   workflow_dispatch:
@@ -20,46 +20,16 @@ on:
           - 'minor'
           - 'patch'
 
-env:
-  BRANCH_NEW: "bump-${{ github.run_number }}-${{ github.ref_name }}"
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  bump_version:
-    runs-on: ubuntu-latest
+  bump:
+    uses: qte77/.github/.github/workflows/bump-version.yml@86d329865ce47b43b6e745084c92032b41dcab1b  # 2026-10-24
+    with:
+      bump_type: ${{ inputs.bump_type }}
     permissions:
       contents: write
       pull-requests: write
-    steps:
-
-      - name: Checkout repo
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          fetch-depth: 1
-
-      - name: Bump version (files only, no commit/tag)
-        id: bump
-        uses: callowayproject/bump-my-version@169cce310a3bf9a723d4810157635401de72a07a # 1.4
-        with:
-          args: ${{ inputs.bump_type }}
-
-      - name: Commit, push branch, open PR
-        if: steps.bump.outputs.bumped == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: ${{ env.BRANCH_NEW }}
-          BASE: ${{ github.ref_name }}
-          VERSION: ${{ steps.bump.outputs.current-version }}
-          PREV_VERSION: ${{ steps.bump.outputs.previous-version }}
-        run: |
-          git config user.name "bump-my-version"
-          git config user.email "bump-my-version@qte77.gha"
-          git checkout -b "$BRANCH"
-          git commit -am "chore(release): bump $PREV_VERSION -> $VERSION"
-          # The bump-my-version Docker action disrupts the persisted git
-          # credential, so push to an explicitly token-authenticated URL.
-          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$BRANCH"
-          gh pr create \
-            --base "$BASE" \
-            --head "$BRANCH" \
-            --title "chore(release): bump $PREV_VERSION -> $VERSION" \
-            --body "Automated version bump \`v$PREV_VERSION\` -> \`v$VERSION\`. Merging this PR triggers \`tag-release.yaml\`, which tags \`v$VERSION\` on the \`$BASE\` merge commit and publishes the GitHub Release."
+...

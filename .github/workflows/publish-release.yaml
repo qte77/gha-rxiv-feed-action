@@ -1,0 +1,26 @@
+---
+name: Publish Release
+
+# Manual fallback: publish the GitHub Release for an existing tag when the
+# automatic publish in `tag-release.yaml` did not run or failed. Never
+# overwrites an existing release (qte77/.github#23).
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to publish (leave blank for latest v* tag)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    uses: qte77/.github/.github/workflows/publish-release.yml@86d329865ce47b43b6e745084c92032b41dcab1b  # 2026-10-24
+    with:
+      tag: ${{ inputs.tag }}
+    permissions:
+      contents: write
+...
