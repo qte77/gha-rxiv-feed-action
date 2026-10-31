@@ -57,6 +57,12 @@ inputs:
       client-side; the bioRxiv /details/ API has no server-side category
       filter.
     default: ""
+  SEED_ONLY:
+    description: >-
+      When "true", skip fetching and only write a header-only CSV for the
+      current ISO week if it is absent, so consumers polling the
+      in-progress week get an empty file instead of a 404.
+    default: "false"
   TOKEN:
     description: "GitHub token for pushing changes."
     default: ""
@@ -91,6 +97,7 @@ runs:
         MAX_PAGES: ${{ inputs.MAX_PAGES }}
         DAYS: ${{ inputs.DAYS }}
         CATEGORIES: ${{ inputs.CATEGORIES }}
+        SEED_ONLY: ${{ inputs.SEED_ONLY }}
         PYTHONPATH: ${{ github.action_path }}
         UV_PROJECT_ENVIRONMENT: ${{ runner.temp }}/.venv
       run: |

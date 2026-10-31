@@ -9,6 +9,7 @@ Version). Defaults match the biorxiv schema for backwards compatibility.
 import csv
 import os
 import time
+from datetime import date
 from os import makedirs
 from os.path import dirname, exists
 from typing import TextIO
@@ -207,3 +208,18 @@ def write_file(
         with open(out_file, mode="a+", newline="", encoding="UTF8") as f:
             for row in new_rows:
                 _write_csv_row(f, row)
+
+
+def seed_week_stub(out_dir: str, header: list[str], today: date | None = None) -> bool:
+    """Create a header-only CSV for the current ISO week when it is absent.
+
+    Lets consumers polling the in-progress week get an empty file instead of
+    a 404 before the first fetch of the week lands (#134). Returns ``True``
+    when a stub was written, ``False`` when the week's CSV already exists.
+    """
+    iso = (today or date.today()).isocalendar()
+    year_dir = f"{out_dir}/{iso[0]}"
+    if exists(f"{year_dir}/{iso[1]}.csv"):
+        return False
+    write_file([], str(iso[1]), year_dir, header)
+    return True
