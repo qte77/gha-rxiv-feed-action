@@ -69,6 +69,7 @@ How a single weekly run flows from cron trigger to merged data PR.
 | `src/fetchers/common.py` | HTTP retry + URL allowlist; CSV write + dedup + header-upgrade; `scrub_newlines` helper. |
 | `src/fetchers/arxiv_citations.py` | Optional Semantic Scholar enrichment for arXiv rows. |
 | `scripts/enum_medrxiv_categories.py` | One-off: re-derive the canonical medRxiv category list (annual). |
+| `scripts/weekly_svg.sh` | bash + awk: render `OUT_DIR/weekly.svg` (papers per ISO week, light/dark aware); run by `action.yaml` after the fetch. |
 | `scripts/migrate_csv_schema.py` | One-shot: widen existing CSV headers + pad rows when the schema grows. |
 
 ## Invariants
