@@ -56,6 +56,13 @@ def test_get_api_response_raises_after_max():
         get_api_response("https://api.biorxiv.org/test", max_retries=3)
 
 
+def test_get_api_response_forwards_headers_and_timeout():
+    """Optional headers (e.g. an API key) and timeout reach requests.get."""
+    with patch("src.fetchers.common.requests.get", return_value=_make_response()) as mock_get:
+        get_api_response("https://api.biorxiv.org/test", headers={"x-api-key": "k"}, timeout=10)
+    assert mock_get.call_args.kwargs == {"headers": {"x-api-key": "k"}, "timeout": 10}
+
+
 # --- URL validator ---
 
 

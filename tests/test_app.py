@@ -69,3 +69,62 @@ def test_arxiv_paginate_returns_empty_on_probe_failure():
         )
 
     assert result == {}
+
+
+def test_run_biorxiv_enriches_rows_with_citations(tmp_path):
+    """INCLUDE_CITATIONS on bio/med looks up DOI: ids and adds citation columns."""
+    import json
+
+    from src.app import _run_biorxiv
+
+    page = json.dumps(
+        {
+            "messages": [{"status": "ok", "total": 1, "count": 1, "cursor": 0}],
+            "collection": [
+                {
+                    "doi": "10.1101/2024.01.15.1234",
+                    "version": "1",
+                    "category": "neuroscience",
+                    "title": "T",
+                    "authors": "A",
+                    "abstract": "B",
+                    "date": "2024-01-15",
+                }
+            ],
+        }
+    ).encode()
+    counts = {"citation_count": 7, "reference_count": 3, "influential_count": 1}
+
+    with (
+        patch("src.app.get_api_response", return_value=page),
+        patch("src.app.get_citations", return_value=counts) as mock_cit,
+    ):
+        _run_biorxiv(
+            server="biorxiv",
+            out_dir=str(tmp_path),
+            days=7,
+            categories=set(),
+            date_from="2024-01-15",
+            date_to="2024-01-21",
+            include_citations=True,
+            api_key="secret",
+        )
+
+    mock_cit.assert_called_once_with("DOI:10.1101/2024.01.15.1234", api_key="secret")
+    header, row = (tmp_path / "2024" / "3.csv").read_text(encoding="UTF8").splitlines()
+    assert header.endswith("Abstract,Citations,References,InfluentialCitations")
+    assert row.endswith(",7,3,1")
+
+
+def test_main_passes_citation_settings_to_biorxiv(monkeypatch):
+    """INCLUDE_CITATIONS and SEMANTIC_SCHOLAR_API_KEY reach the bio/med runner."""
+    monkeypatch.setenv("SERVER", "medrxiv")
+    monkeypatch.setenv("OUT_DIR", "./data/medrxiv-test")
+    monkeypatch.setenv("INCLUDE_CITATIONS", "true")
+    monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "secret")
+
+    with patch("src.app._run_biorxiv") as mock_bio:
+        main()
+
+    assert mock_bio.call_args.kwargs["include_citations"] is True
+    assert mock_bio.call_args.kwargs["api_key"] == "secret"
