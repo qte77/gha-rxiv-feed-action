@@ -1,7 +1,7 @@
 ---
 name: Bump version
 
-# Step 1 of 2 of the release pipeline (see docs: README "Versioning").
+# Step 1 of 2 of the release pipeline (see docs/usage.md "Versioning").
 # Bumps version files on a branch and opens a `chore(release)` PR.
 # Tagging + the GitHub Release are handled by `tag-release.yaml`, which
 # fires when this PR is merged to `main` (so the tag lands on the merge
