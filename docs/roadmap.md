@@ -15,9 +15,9 @@ bets.
   `DOI:` lookups — feature parity with arXiv. Also wires the currently
   no-op `SEMANTIC_SCHOLAR_API_KEY` and routes the call through the URL
   allowlist (issue #105).
-- **Week-start stub CSV** — publish a header-only CSV on Monday so
+- ~~**Week-start stub CSV** — publish a header-only CSV on Monday so
   consumers polling the in-progress week get an empty file, not a 404
-  (issue #134).
+  (issue #134).~~ `SEED_ONLY` input + `seed-week-stub.yaml` (Mon 00:05 UTC).
 - Backfill arXiv historic weeks 11–19 with the new
   `Authors`+`Abstract` schema — a single `gh workflow run` with
   `date_from`/`date_to` now that #129 and #132 have merged.
@@ -25,10 +25,11 @@ bets.
 ## Medium-term
 
 - **OSF-backed fetchers (psyArXiv + SocArxiv)** — both ride the same
-  OSF JSON:API substrate (`api.osf.io`), so batch them. Needs a
-  coarse subject-grouping decision (234-node taxonomy) and an
-  authors/N+1 strategy before wiring (issues #70, #99,
-  `docs/categories.md`).
+  OSF JSON:API substrate (`api.osf.io`), so batch them. ~~psyArXiv
+  (issue #70)~~: `src/fetchers/osf.py`, top-level subjects as
+  `Category`, `Authors` empty. Open: SocArxiv (issue #99, one
+  `_OSF_SERVERS` entry) and an authors/N+1 strategy
+  (`docs/categories.md`).
 - **chemRxiv fetcher** — *blocked*: the Figshare/ACS public API is
   Cloudflare-fronted and returns a challenge page to CI runners, so it
   can't be fetched or tested unattended. Deferred until an official

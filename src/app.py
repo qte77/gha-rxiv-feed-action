@@ -26,8 +26,10 @@ from src.fetchers.common import (
     filter_new_rows,
     get_api_response,
     load_all_existing_ids,
+    seed_week_stub,
     write_file,
 )
+from src.fetchers.osf import build_osf_url, parse_osf_json
 from src.validation import validate_env
 
 _BIORXIV_HEADER = ["Date", "ISOWeek", "DOI", "Version", "Category", "Title", "Authors", "Abstract"]
@@ -42,6 +44,7 @@ _ARXIV_HEADER = [
     "Authors",
     "Abstract",
 ]
+_OSF_SERVERS = frozenset({"psyarxiv"})
 _ARXIV_CITATIONS_HEADER = ["Citations", "References", "InfluentialCitations"]
 
 
@@ -89,6 +92,43 @@ def _run_biorxiv(
         if new_rows:
             year_dir = f"{out_dir}/{year}"
             write_file(new_rows, str(week), year_dir, _BIORXIV_HEADER)
+            existing_ids.update((row[2], str(row[3])) for row in new_rows)
+            print(f"Wrote {year}/week {week}: {len(new_rows)} new papers")
+
+
+def _run_osf(
+    provider: str,
+    out_dir: str,
+    days: int,
+    categories: set,
+    date_from: str = "",
+    date_to: str = "",
+) -> None:
+    """Fetch an OSF-hosted preprint server (psyArXiv) and write per-week CSVs."""
+    existing_ids = load_all_existing_ids(out_dir)
+    print(f"Loaded {len(existing_ids)} existing paper IDs from {out_dir}")
+
+    start_date, end_date = build_date_range(
+        days, date_from=date_from or None, date_to=date_to or None
+    )
+    print(f"Fetching {provider} from {start_date} to {end_date}")
+    url: str | None = build_osf_url(provider, start_date, end_date)
+    all_weeks: dict = {}
+
+    while url:
+        try:
+            data = get_api_response(url)
+        except RuntimeError as e:
+            print(f"API error at {url}, stopping: {e}")
+            break
+        weekly, url = parse_osf_json(data, categories)
+        for week, rows in weekly.items():
+            all_weeks.setdefault(week, []).extend(rows)
+
+    for (year, week), rows in all_weeks.items():
+        new_rows = filter_new_rows(rows, existing_ids)
+        if new_rows:
+            write_file(new_rows, str(week), f"{out_dir}/{year}", _BIORXIV_HEADER)
             existing_ids.update((row[2], str(row[3])) for row in new_rows)
             print(f"Wrote {year}/week {week}: {len(new_rows)} new papers")
 
@@ -190,6 +230,7 @@ _ENV_KEYS = (
     "DATE_TO",
     "PAGE_SIZE",
     "MAX_PAGES",
+    "SEED_ONLY",
 )
 
 
@@ -203,6 +244,12 @@ def main() -> None:
     server = env.get("SERVER") or "arxiv"
     out_dir = env.get("OUT_DIR") or "./data/arxiv"
 
+    if env.get("SEED_ONLY") == "true":
+        header = _ARXIV_HEADER if server == "arxiv" else _BIORXIV_HEADER
+        if seed_week_stub(out_dir, header):
+            print(f"Seeded header-only CSV for the current ISO week in {out_dir}")
+        return
+
     if server == "arxiv":
         _run_arxiv(
             out_dir=out_dir,
@@ -214,6 +261,15 @@ def main() -> None:
             date_to=env.get("DATE_TO", ""),
             page_size=int(env.get("PAGE_SIZE") or "1000"),
             max_pages=int(env.get("MAX_PAGES") or "5"),
+        )
+    elif server in _OSF_SERVERS:
+        _run_osf(
+            provider=server,
+            out_dir=out_dir,
+            days=int(env.get("DAYS") or "1"),
+            categories={c.strip() for c in env.get("CATEGORIES", "").split(",") if c.strip()},
+            date_from=env.get("DATE_FROM", ""),
+            date_to=env.get("DATE_TO", ""),
         )
     else:
         _run_biorxiv(

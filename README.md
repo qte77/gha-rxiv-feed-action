@@ -105,7 +105,7 @@ No moving/major tag is created.
 
 | Name | Required | Default | Description |
 | ---- | -------- | ------- | ----------- |
-| `SERVER` | No | `arxiv` | API server: `arxiv`, `biorxiv`, or `medrxiv`. |
+| `SERVER` | No | `arxiv` | API server: `arxiv`, `biorxiv`, `medrxiv`, or `psyarxiv`. |
 | `OUT_DIR` | No | `./data/arxiv` | Directory to write CSV output files. Convention: `./data/<server>` so multiple servers can coexist when using a matrix. |
 | `TOPICS` | No | `cat:cs.CV+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.AI+OR+cat:cs.NE+OR+cat:cs.RO` | arXiv search_query (URL-encoded, OR-joined). See [`docs/categories.md`](docs/categories.md#arxiv). arXiv only. |
 | `INCLUDE_CITATIONS` | No | `false` | Enrich arXiv rows with Semantic Scholar citation counts. arXiv only. |
@@ -115,8 +115,9 @@ No moving/major tag is created.
 | `DATE_TO` | No | _(empty)_ | YYYY-MM-DD upper bound. Empty = today. Server semantics mirror `DATE_FROM`. |
 | `PAGE_SIZE` | No | `1000` | arXiv pagination page size. arXiv only. |
 | `MAX_PAGES` | No | `5` | Cap on arXiv pagination pages per run. arXiv only. |
-| `DAYS` | No | `1` | Number of days back to fetch. bioRxiv/medRxiv only. |
-| `CATEGORIES` | No | _(empty)_ | Comma-separated bioRxiv/medRxiv categories to keep. See [`docs/categories.md`](docs/categories.md). bioRxiv/medRxiv only. |
+| `DAYS` | No | `1` | Number of days back to fetch. bioRxiv/medRxiv/psyArXiv only. |
+| `CATEGORIES` | No | _(empty)_ | Comma-separated bioRxiv/medRxiv categories, or psyArXiv top-level subjects, to keep. See [`docs/categories.md`](docs/categories.md). bioRxiv/medRxiv/psyArXiv only. |
+| `SEED_ONLY` | No | `false` | When `true`, skip fetching and only write a header-only CSV for the current ISO week if absent (avoids a 404 for consumers polling the in-progress week). |
 | `TOKEN` | No | `${{ github.token }}` | GitHub token for pushing changes. |
 
 ## API
@@ -126,9 +127,10 @@ Data sourced from:
 - arXiv: `https://export.arxiv.org/api/query?search_query={topics}&start={n}&max_results={k}&sortBy=submittedDate` (Atom XML)
 - bioRxiv: `https://api.biorxiv.org/details/biorxiv/{date1}/{date2}/{cursor}/json`
 - medRxiv: `https://api.biorxiv.org/details/medrxiv/{date1}/{date2}/{cursor}/json`
+- psyArXiv: `https://api.osf.io/v2/preprints/?filter[provider]=psyarxiv&filter[date_published][gte]={date1}&page[size]=100` (OSF JSON:API, paginated via `links.next`)
 
 Outbound requests are locked to an allowlist of API hosts
-(`api.biorxiv.org`, `export.arxiv.org`, `api.semanticscholar.org`) and
+(`api.biorxiv.org`, `export.arxiv.org`, `api.semanticscholar.org`, `api.osf.io`) and
 require HTTPS on port 443; non-allowlisted hosts raise `ValueError` at
 the validator boundary. Extend `_ALLOWED_HOSTS` in
 `src/fetchers/common.py` when adding a new fetcher.
@@ -136,13 +138,16 @@ the validator boundary. Extend `_ALLOWED_HOSTS` in
 ## Data
 
 `data/<server>/<year>/<isoweek>.csv` — one CSV per ISO week per server.
+`data/<server>/weekly.svg` — papers-per-ISO-week bar chart (last 26 weeks),
+re-rendered by `scripts/weekly_svg.sh` after each fetch; follows the
+viewer's light/dark theme via `prefers-color-scheme`.
 The action appends new rows on each run and dedupes by
 `(DOI, Version)` for bioRxiv/medRxiv or `(ID, Version)` for arXiv.
 
 Current schemas:
 
 - **arXiv** (9 cols): `Published, ISOWeek, Updated, ID, Version, Title, Categories, Authors, Abstract`
-- **bioRxiv / medRxiv** (8 cols): `Date, ISOWeek, DOI, Version, Category, Title, Authors, Abstract`
+- **bioRxiv / medRxiv / psyArXiv** (8 cols): `Date, ISOWeek, DOI, Version, Category, Title, Authors, Abstract`. psyArXiv `Category` is the `;`-joined top-level OSF subjects; `Authors` is empty (contributor lookup not yet implemented); `DOI` falls back to the OSF GUID when no preprint DOI is minted.
 
 Schema is append-only: new columns ship as minor-version bumps; existing
 column indices never shift, so downstream consumers can pin a minimum

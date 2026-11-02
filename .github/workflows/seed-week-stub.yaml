@@ -1,0 +1,29 @@
+---
+name: Seed week stub
+# Publishes a header-only CSV for the new ISO week right after it starts, so
+# consumers polling the in-progress week get an empty file instead of a 404
+# until the first fetch of the week lands (#134).
+on:
+  schedule:
+    - cron: "5 0 * * 1"
+  workflow_dispatch:
+jobs:
+  seedWeekStub:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    strategy:
+      max-parallel: 1   # serialize: the action's auto-merge step is not concurrency-safe
+      fail-fast: false
+      matrix:
+        server: [arxiv, biorxiv, medrxiv]
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: ./
+        with:
+          OUT_DIR: "./data/${{ matrix.server }}"
+          SERVER: ${{ matrix.server }}
+          SEED_ONLY: "true"
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+...
