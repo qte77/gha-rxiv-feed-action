@@ -81,8 +81,8 @@ replace = 'version = "{new_version}"'
 
 [[tool.bumpversion.files]]
 filename = "README.md"
-search = "![Version](https://img.shields.io/badge/version-{current_version}-8A2BE2)"
-replace = "![Version](https://img.shields.io/badge/version-{new_version}-8A2BE2)"
+search = "[![Version](https://img.shields.io/badge/version-{current_version}-blue.svg)](CHANGELOG.md)"
+replace = "[![Version](https://img.shields.io/badge/version-{new_version}-blue.svg)](CHANGELOG.md)"
 
 [[tool.bumpversion.files]]
 filename = "CHANGELOG.md"

@@ -1,7 +1,7 @@
 ---
 name: Bump version
 
-# Step 1 of 2 of the release pipeline (see README "Versioning").
+# Step 1 of 2 of the release pipeline (see docs/usage.md "Versioning").
 # Thin caller of the qte77/.github reusable: bumps version files with
 # bump-my-version, makes a signed commit via the API on a bump branch, and
 # opens a `chore(release)` PR. Tagging + the GitHub Release are handled by
