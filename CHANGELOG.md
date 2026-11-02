@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **`DATE_FROM`/`DATE_TO` now bound every arXiv topic.** The topic query is
+  grouped before the `submittedDate` range is appended. arXiv binds AND tighter
+  than OR, so `cat:A+OR+cat:B+AND+submittedDate:[…]` bounded only the last
+  category and a backfill dispatch fetched the newest papers instead of the
+  requested range (e.g. 2026-03-16..22 matched 615,699 results).
+
 ---
 
 ## [0.2.4] - 2026-06-27

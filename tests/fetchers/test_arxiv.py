@@ -7,6 +7,7 @@ import pytest
 
 from src.fetchers.arxiv import (
     build_date_query,
+    build_search_query,
     extract_authors,
     extract_categories,
     get_parsed_output,
@@ -84,6 +85,23 @@ def test_build_date_query_format_is_arxiv_compatible():
     assert "+AND+submittedDate:[" in result
     assert "+TO+" in result
     assert result.endswith("]")
+
+
+# --- build_search_query ---
+
+
+def test_build_search_query_groups_or_topics_before_date_range():
+    """The date range must bound every OR'd category, not only the last one.
+
+    arXiv binds AND tighter than OR: ``A+OR+B+AND+date`` means ``A OR (B AND date)``.
+    """
+    date_query = build_date_query(date_from="2026-03-16", date_to="2026-03-22")
+    result = build_search_query("cat:cs.CV+OR+cat:cs.AI", date_query)
+    assert result == "(cat:cs.CV+OR+cat:cs.AI)" + date_query
+
+
+def test_build_search_query_without_dates_is_topics_unchanged():
+    assert build_search_query("cat:cs.CV+OR+cat:cs.AI", "") == "cat:cs.CV+OR+cat:cs.AI"
 
 
 # --- extract_categories ---

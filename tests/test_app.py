@@ -69,3 +69,43 @@ def test_arxiv_paginate_returns_empty_on_probe_failure():
         )
 
     assert result == {}
+
+
+def test_run_biorxiv_stops_gracefully_on_api_error(tmp_path):
+    """A RuntimeError mid-pagination keeps already-fetched rows and does not crash."""
+    import json
+
+    from src.app import _run_biorxiv
+
+    first_page = json.dumps(
+        {
+            "messages": [{"status": "ok", "total": 200, "count": 100, "cursor": 0}],
+            "collection": [
+                {
+                    "doi": "10.1101/2024.01.15.1234",
+                    "version": "1",
+                    "category": "neuroscience",
+                    "title": "Kept Paper",
+                    "authors": "Smith J",
+                    "abstract": "A.",
+                    "date": "2024-01-15",
+                }
+            ],
+        }
+    ).encode()
+
+    with patch(
+        "src.app.get_api_response", side_effect=[first_page, RuntimeError("boom")]
+    ) as mock_get:
+        _run_biorxiv(
+            server="biorxiv",
+            out_dir=str(tmp_path),
+            days=7,
+            categories=set(),
+            date_from="2024-01-15",
+            date_to="2024-01-21",
+        )
+
+    assert mock_get.call_count == 2
+    written = (tmp_path / "2024" / "3.csv").read_text(encoding="UTF8")
+    assert "10.1101/2024.01.15.1234" in written

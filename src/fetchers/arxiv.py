@@ -66,6 +66,17 @@ def build_date_query(date_from: str | None = None, date_to: str | None = None) -
     return f"+AND+submittedDate:[{start:%Y%m%d}0000+TO+{end:%Y%m%d}2359]"
 
 
+def build_search_query(topics: str, date_query: str) -> str:
+    """Combine a topic query with a date-range fragment.
+
+    arXiv binds AND tighter than OR, so the topics are grouped first; otherwise
+    ``A+OR+B+AND+date`` bounds only ``B`` and returns papers of any date for ``A``.
+    """
+    if not date_query:
+        return topics
+    return f"({topics}){date_query}"
+
+
 def extract_categories(tags: list | None) -> list[str]:
     """Extract arxiv category terms from a feedparser tags list."""
     if not tags:
