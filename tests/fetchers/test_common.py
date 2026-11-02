@@ -1,6 +1,7 @@
 """Shared fetcher tests: HTTP retry, URL validator, dedup/IO with dedup_cols."""
 
 import csv
+from datetime import date
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -11,6 +12,7 @@ from src.fetchers.common import (
     filter_new_rows,
     get_api_response,
     load_all_existing_ids,
+    seed_week_stub,
     write_file,
 )
 
@@ -353,3 +355,20 @@ def test_dedup_cols_parametrize(tmp_path, dedup_cols, header, row_keep, row_dup)
         dedup_cols=dedup_cols,
     )
     assert len(new) == 1
+
+
+def test_seed_week_stub_writes_header_only_csv_for_current_iso_week(tmp_path):
+    header = ["Date", "ISOWeek", "DOI", "Version"]
+    # 2027-01-01 is a Friday in ISO week 53 of ISO year 2026.
+    assert seed_week_stub(str(tmp_path), header, today=date(2027, 1, 1)) is True
+    stub = tmp_path / "2026" / "53.csv"
+    assert stub.read_text(encoding="UTF8") == "Date,ISOWeek,DOI,Version\n"
+
+
+def test_seed_week_stub_leaves_existing_csv_untouched(tmp_path):
+    week_file = tmp_path / "2026" / "19.csv"
+    week_file.parent.mkdir()
+    week_file.write_text("Date,ISOWeek,DOI,Version\n2026-05-04,19,10.1/x,1\n", encoding="UTF8")
+
+    assert seed_week_stub(str(tmp_path), ["Date"], today=date(2026, 5, 4)) is False
+    assert "10.1/x" in week_file.read_text(encoding="UTF8")

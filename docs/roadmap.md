@@ -15,9 +15,9 @@ bets.
   `DOI:` lookups — feature parity with arXiv. Also wires the currently
   no-op `SEMANTIC_SCHOLAR_API_KEY` and routes the call through the URL
   allowlist (issue #105).
-- **Week-start stub CSV** — publish a header-only CSV on Monday so
+- ~~**Week-start stub CSV** — publish a header-only CSV on Monday so
   consumers polling the in-progress week get an empty file, not a 404
-  (issue #134).
+  (issue #134).~~ `SEED_ONLY` input + `seed-week-stub.yaml` (Mon 00:05 UTC).
 - Backfill arXiv historic weeks 11–19 with the new
   `Authors`+`Abstract` schema — a single `gh workflow run` with
   `date_from`/`date_to` now that #129 and #132 have merged.
