@@ -66,6 +66,7 @@ How a single weekly run flows from cron trigger to merged data PR.
 | `src/validation.py` | Validate env at process entry; reject malformed `DAYS`/`DATE_FROM`/`DATE_TO`/`SERVER` before any I/O. |
 | `src/fetchers/arxiv.py` | Atom XML parse; arXiv URL/date helpers; category filtering. |
 | `src/fetchers/biorxiv.py` | JSON parse; pagination signal; rolling-vs-explicit date range; prune-by-category for existing CSVs. |
+| `src/fetchers/osf.py` | OSF JSON:API parse (psyArXiv); list-URL builder; `links.next` pagination signal. |
 | `src/fetchers/common.py` | HTTP retry + URL allowlist; CSV write + dedup + header-upgrade; `scrub_newlines` helper. |
 | `src/fetchers/arxiv_citations.py` | Optional Semantic Scholar enrichment for arXiv rows. |
 | `scripts/enum_medrxiv_categories.py` | One-off: re-derive the canonical medRxiv category list (annual). |

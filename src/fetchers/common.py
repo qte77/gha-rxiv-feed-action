@@ -17,12 +17,13 @@ from urllib.parse import urlparse
 import requests
 
 # Hosts the action is permitted to fetch from. Extend this set when adding a
-# new fetcher (e.g. chemrxiv, psyarxiv).
+# new fetcher (e.g. chemrxiv, socarxiv).
 _ALLOWED_HOSTS = frozenset(
     {
         "api.biorxiv.org",
         "export.arxiv.org",
         "api.semanticscholar.org",
+        "api.osf.io",
     }
 )
 
