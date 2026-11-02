@@ -15,7 +15,7 @@ def _render(data_dir: Path, out: Path, *args: str) -> str:
 
 
 def _bar_titles(svg: str) -> list[str]:
-    root = ET.fromstring(svg)  # noqa: S314 - trusted local output
+    root = ET.fromstring(svg)  # noqa: S314 - parses SVG this test just rendered  # nosec B314
     ns = "{http://www.w3.org/2000/svg}"
     return [t.text for r in root.iter(f"{ns}rect") if (t := r.find(f"{ns}title")) is not None]
 
