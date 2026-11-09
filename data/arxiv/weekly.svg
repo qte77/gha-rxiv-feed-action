@@ -14,32 +14,32 @@
 <line class="axis" x1="48" y1="208" x2="704" y2="208"/>
 <text class="txt muted" x="42" y="40" text-anchor="end">5399</text>
 <text class="txt muted" x="42" y="212" text-anchor="end">0</text>
-<rect class="bar" x="49.0" y="88.2" width="23.2" height="119.8"><title>2026-W19: 3762 papers</title></rect>
-<rect class="bar" x="74.2" y="88.9" width="23.2" height="119.1"><title>2026-W20: 3737 papers</title></rect>
-<rect class="bar" x="99.5" y="103.3" width="23.2" height="104.7"><title>2026-W21: 3288 papers</title></rect>
-<rect class="bar" x="124.7" y="124.4" width="23.2" height="83.6"><title>2026-W22: 2625 papers</title></rect>
-<rect class="bar" x="149.9" y="119.5" width="23.2" height="88.5"><title>2026-W23: 2779 papers</title></rect>
-<rect class="bar" x="175.2" y="130.5" width="23.2" height="77.5"><title>2026-W24: 2433 papers</title></rect>
-<rect class="bar" x="200.4" y="140.3" width="23.2" height="67.7"><title>2026-W25: 2124 papers</title></rect>
-<rect class="bar" x="225.6" y="136.0" width="23.2" height="72.0"><title>2026-W26: 2261 papers</title></rect>
-<rect class="bar" x="250.8" y="142.7" width="23.2" height="65.3"><title>2026-W27: 2051 papers</title></rect>
-<rect class="bar" x="276.1" y="155.5" width="23.2" height="52.5"><title>2026-W28: 1648 papers</title></rect>
-<rect class="bar" x="301.3" y="203.4" width="23.2" height="4.6"><title>2026-W29: 144 papers</title></rect>
-<rect class="bar" x="326.5" y="156.5" width="23.2" height="51.5"><title>2026-W30: 1616 papers</title></rect>
-<rect class="bar" x="351.8" y="176.1" width="23.2" height="31.9"><title>2026-W31: 1000 papers</title></rect>
-<rect class="bar" x="377.0" y="201.5" width="23.2" height="6.5"><title>2026-W33: 204 papers</title></rect>
-<rect class="bar" x="402.2" y="146.9" width="23.2" height="61.1"><title>2026-W34: 1919 papers</title></rect>
-<rect class="bar" x="427.5" y="136.5" width="23.2" height="71.5"><title>2026-W35: 2244 papers</title></rect>
-<rect class="bar" x="452.7" y="134.8" width="23.2" height="73.2"><title>2026-W36: 2299 papers</title></rect>
-<rect class="bar" x="477.9" y="200.6" width="23.2" height="7.4"><title>2026-W37: 233 papers</title></rect>
-<rect class="bar" x="503.2" y="138.1" width="23.2" height="69.9"><title>2026-W38: 2195 papers</title></rect>
-<rect class="bar" x="528.4" y="190.1" width="23.2" height="17.9"><title>2026-W39: 561 papers</title></rect>
-<rect class="bar" x="553.6" y="36.0" width="23.2" height="172.0"><title>2026-W40: 5399 papers</title></rect>
-<rect class="bar" x="578.8" y="95.9" width="23.2" height="112.1"><title>2026-W41: 3519 papers</title></rect>
-<rect class="bar" x="604.1" y="101.0" width="23.2" height="107.0"><title>2026-W42: 3358 papers</title></rect>
-<rect class="bar" x="629.3" y="114.9" width="23.2" height="93.1"><title>2026-W43: 2921 papers</title></rect>
-<rect class="bar" x="654.5" y="143.6" width="23.2" height="64.4"><title>2026-W44: 2022 papers</title></rect>
+<rect class="bar" x="49.0" y="88.9" width="23.2" height="119.1"><title>2026-W20: 3737 papers</title></rect>
+<rect class="bar" x="74.2" y="103.3" width="23.2" height="104.7"><title>2026-W21: 3288 papers</title></rect>
+<rect class="bar" x="99.5" y="124.4" width="23.2" height="83.6"><title>2026-W22: 2625 papers</title></rect>
+<rect class="bar" x="124.7" y="119.5" width="23.2" height="88.5"><title>2026-W23: 2779 papers</title></rect>
+<rect class="bar" x="149.9" y="130.5" width="23.2" height="77.5"><title>2026-W24: 2433 papers</title></rect>
+<rect class="bar" x="175.2" y="140.3" width="23.2" height="67.7"><title>2026-W25: 2124 papers</title></rect>
+<rect class="bar" x="200.4" y="136.0" width="23.2" height="72.0"><title>2026-W26: 2261 papers</title></rect>
+<rect class="bar" x="225.6" y="142.7" width="23.2" height="65.3"><title>2026-W27: 2051 papers</title></rect>
+<rect class="bar" x="250.8" y="155.5" width="23.2" height="52.5"><title>2026-W28: 1648 papers</title></rect>
+<rect class="bar" x="276.1" y="203.4" width="23.2" height="4.6"><title>2026-W29: 144 papers</title></rect>
+<rect class="bar" x="301.3" y="156.5" width="23.2" height="51.5"><title>2026-W30: 1616 papers</title></rect>
+<rect class="bar" x="326.5" y="176.1" width="23.2" height="31.9"><title>2026-W31: 1000 papers</title></rect>
+<rect class="bar" x="351.8" y="201.5" width="23.2" height="6.5"><title>2026-W33: 204 papers</title></rect>
+<rect class="bar" x="377.0" y="146.9" width="23.2" height="61.1"><title>2026-W34: 1919 papers</title></rect>
+<rect class="bar" x="402.2" y="136.5" width="23.2" height="71.5"><title>2026-W35: 2244 papers</title></rect>
+<rect class="bar" x="427.5" y="134.8" width="23.2" height="73.2"><title>2026-W36: 2299 papers</title></rect>
+<rect class="bar" x="452.7" y="200.6" width="23.2" height="7.4"><title>2026-W37: 233 papers</title></rect>
+<rect class="bar" x="477.9" y="138.1" width="23.2" height="69.9"><title>2026-W38: 2195 papers</title></rect>
+<rect class="bar" x="503.2" y="190.1" width="23.2" height="17.9"><title>2026-W39: 561 papers</title></rect>
+<rect class="bar" x="528.4" y="36.0" width="23.2" height="172.0"><title>2026-W40: 5399 papers</title></rect>
+<rect class="bar" x="553.6" y="95.9" width="23.2" height="112.1"><title>2026-W41: 3519 papers</title></rect>
+<rect class="bar" x="578.8" y="101.0" width="23.2" height="107.0"><title>2026-W42: 3358 papers</title></rect>
+<rect class="bar" x="604.1" y="114.9" width="23.2" height="93.1"><title>2026-W43: 2921 papers</title></rect>
+<rect class="bar" x="629.3" y="132.4" width="23.2" height="75.6"><title>2026-W44: 2373 papers</title></rect>
+<rect class="bar" x="654.5" y="139.4" width="23.2" height="68.6"><title>2026-W45: 2154 papers</title></rect>
 <rect class="bar" x="679.8" y="208.0" width="23.2" height="0.0"><title>2026-W46: 0 papers</title></rect>
-<text class="txt muted" x="48" y="230">2026-W19</text>
+<text class="txt muted" x="48" y="230">2026-W20</text>
 <text class="txt muted" x="704" y="230" text-anchor="end">2026-W46</text>
 </svg>
