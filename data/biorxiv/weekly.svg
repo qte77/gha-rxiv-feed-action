@@ -14,27 +14,28 @@
 <line class="axis" x1="48" y1="208" x2="704" y2="208"/>
 <text class="txt muted" x="42" y="40" text-anchor="end">7</text>
 <text class="txt muted" x="42" y="212" text-anchor="end">0</text>
-<rect class="bar" x="49.0" y="134.3" width="29.2" height="73.7"><title>2026-W13: 3 papers</title></rect>
-<rect class="bar" x="80.2" y="158.9" width="29.2" height="49.1"><title>2026-W14: 2 papers</title></rect>
-<rect class="bar" x="111.5" y="85.1" width="29.2" height="122.9"><title>2026-W15: 5 papers</title></rect>
-<rect class="bar" x="142.7" y="36.0" width="29.2" height="172.0"><title>2026-W16: 7 papers</title></rect>
-<rect class="bar" x="174.0" y="183.4" width="29.2" height="24.6"><title>2026-W17: 1 papers</title></rect>
-<rect class="bar" x="205.2" y="183.4" width="29.2" height="24.6"><title>2026-W18: 1 papers</title></rect>
-<rect class="bar" x="236.4" y="183.4" width="29.2" height="24.6"><title>2026-W19: 1 papers</title></rect>
-<rect class="bar" x="267.7" y="158.9" width="29.2" height="49.1"><title>2026-W20: 2 papers</title></rect>
-<rect class="bar" x="298.9" y="158.9" width="29.2" height="49.1"><title>2026-W21: 2 papers</title></rect>
-<rect class="bar" x="330.1" y="183.4" width="29.2" height="24.6"><title>2026-W22: 1 papers</title></rect>
-<rect class="bar" x="361.4" y="134.3" width="29.2" height="73.7"><title>2026-W23: 3 papers</title></rect>
-<rect class="bar" x="392.6" y="183.4" width="29.2" height="24.6"><title>2026-W24: 1 papers</title></rect>
-<rect class="bar" x="423.9" y="158.9" width="29.2" height="49.1"><title>2026-W27: 2 papers</title></rect>
-<rect class="bar" x="455.1" y="183.4" width="29.2" height="24.6"><title>2026-W29: 1 papers</title></rect>
-<rect class="bar" x="486.3" y="158.9" width="29.2" height="49.1"><title>2026-W30: 2 papers</title></rect>
-<rect class="bar" x="517.6" y="183.4" width="29.2" height="24.6"><title>2026-W31: 1 papers</title></rect>
-<rect class="bar" x="548.8" y="183.4" width="29.2" height="24.6"><title>2026-W34: 1 papers</title></rect>
-<rect class="bar" x="580.0" y="158.9" width="29.2" height="49.1"><title>2026-W35: 2 papers</title></rect>
-<rect class="bar" x="611.3" y="158.9" width="29.2" height="49.1"><title>2026-W41: 2 papers</title></rect>
-<rect class="bar" x="642.5" y="183.4" width="29.2" height="24.6"><title>2026-W42: 1 papers</title></rect>
-<rect class="bar" x="673.8" y="208.0" width="29.2" height="0.0"><title>2026-W46: 0 papers</title></rect>
+<rect class="bar" x="49.0" y="134.3" width="27.8" height="73.7"><title>2026-W13: 3 papers</title></rect>
+<rect class="bar" x="78.8" y="158.9" width="27.8" height="49.1"><title>2026-W14: 2 papers</title></rect>
+<rect class="bar" x="108.6" y="85.1" width="27.8" height="122.9"><title>2026-W15: 5 papers</title></rect>
+<rect class="bar" x="138.5" y="36.0" width="27.8" height="172.0"><title>2026-W16: 7 papers</title></rect>
+<rect class="bar" x="168.3" y="183.4" width="27.8" height="24.6"><title>2026-W17: 1 papers</title></rect>
+<rect class="bar" x="198.1" y="183.4" width="27.8" height="24.6"><title>2026-W18: 1 papers</title></rect>
+<rect class="bar" x="227.9" y="183.4" width="27.8" height="24.6"><title>2026-W19: 1 papers</title></rect>
+<rect class="bar" x="257.7" y="158.9" width="27.8" height="49.1"><title>2026-W20: 2 papers</title></rect>
+<rect class="bar" x="287.5" y="158.9" width="27.8" height="49.1"><title>2026-W21: 2 papers</title></rect>
+<rect class="bar" x="317.4" y="183.4" width="27.8" height="24.6"><title>2026-W22: 1 papers</title></rect>
+<rect class="bar" x="347.2" y="134.3" width="27.8" height="73.7"><title>2026-W23: 3 papers</title></rect>
+<rect class="bar" x="377.0" y="183.4" width="27.8" height="24.6"><title>2026-W24: 1 papers</title></rect>
+<rect class="bar" x="406.8" y="158.9" width="27.8" height="49.1"><title>2026-W27: 2 papers</title></rect>
+<rect class="bar" x="436.6" y="183.4" width="27.8" height="24.6"><title>2026-W29: 1 papers</title></rect>
+<rect class="bar" x="466.5" y="158.9" width="27.8" height="49.1"><title>2026-W30: 2 papers</title></rect>
+<rect class="bar" x="496.3" y="183.4" width="27.8" height="24.6"><title>2026-W31: 1 papers</title></rect>
+<rect class="bar" x="526.1" y="183.4" width="27.8" height="24.6"><title>2026-W34: 1 papers</title></rect>
+<rect class="bar" x="555.9" y="158.9" width="27.8" height="49.1"><title>2026-W35: 2 papers</title></rect>
+<rect class="bar" x="585.7" y="158.9" width="27.8" height="49.1"><title>2026-W41: 2 papers</title></rect>
+<rect class="bar" x="615.5" y="183.4" width="27.8" height="24.6"><title>2026-W42: 1 papers</title></rect>
+<rect class="bar" x="645.4" y="158.9" width="27.8" height="49.1"><title>2026-W45: 2 papers</title></rect>
+<rect class="bar" x="675.2" y="208.0" width="27.8" height="0.0"><title>2026-W46: 0 papers</title></rect>
 <text class="txt muted" x="48" y="230">2026-W13</text>
 <text class="txt muted" x="704" y="230" text-anchor="end">2026-W46</text>
 </svg>
