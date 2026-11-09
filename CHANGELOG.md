@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Dependabot groups the `github/codeql-action` sub-actions (`init`, `analyze`, `autobuild`) into one PR
+
 ### Fixed
 
 - **`DATE_FROM`/`DATE_TO` now bound every arXiv topic.** The topic query is
