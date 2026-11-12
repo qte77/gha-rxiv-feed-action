@@ -6,6 +6,18 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      pip-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      pip-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -15,4 +27,15 @@ updates:
       codeql-action:
         patterns:
           - "github/codeql-action*"
+      actions-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      actions-version-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 ...
