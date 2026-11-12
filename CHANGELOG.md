@@ -13,7 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Dependabot groups the `github/codeql-action` sub-actions (`init`, `analyze`, `autobuild`) into one PR
+- Dependabot groups the `github/codeql-action` sub-actions (`init`, `analyze`, `autobuild`)
+  into one PR, and adds separate `security-updates`/`version-updates` (minor+patch) groups
+  for both the `pip` and `github-actions` ecosystems, so security fixes and routine bumps
+  batch apart from majors
 
 ### Fixed
 
