@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   into one PR, and adds separate `security-updates`/`version-updates` (minor+patch) groups
   for both the `pip` and `github-actions` ecosystems, so security fixes and routine bumps
   batch apart from majors
+- Release workflows re-pinned to `qte77/.github@a32769a` (main 2026-11-12, qte77/.github#64);
+  compatibility checked, no breaking input/output changes
 
 ### Fixed
 
