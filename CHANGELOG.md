@@ -11,6 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Data PRs merge under required status checks.** The action merged its data PR
+  right after opening it, which a base branch requiring status checks refuses with
+  HTTP 405 before the checks report, so the run failed and the data stayed in an
+  open PR. `scripts/merge_data_pr.sh` now enables auto-merge (squash) when the
+  repository allows it, otherwise merges once the PR is mergeable, updates a branch
+  that fell behind, and waits for the merge (up to 15 minutes) so a serialized
+  matrix starts each PR from the updated base.
+
 ---
 
 ## [0.3.0] - 2026-11-14

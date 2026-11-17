@@ -59,6 +59,17 @@ steps:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+### Merging the data PR
+
+The action opens one PR per run and squash-merges it without bypassing branch
+rules. It enables auto-merge when the repository allows it (Settings > General >
+"Allow auto-merge"), otherwise it merges directly once the PR is mergeable. The
+step waits until the PR is merged, updating the branch if a base that requires
+up-to-date branches has moved, so the next job of a `max-parallel: 1` matrix
+starts from the new base. After 15 minutes, or on a closed or conflicting PR, the
+step fails and leaves the PR open. The `TOKEN` needs `contents: write` and
+`pull-requests: write`.
+
 ### Manual backfill via workflow_dispatch
 
 The reference workflow at `.github/workflows/update-rxiv-feed.yaml`

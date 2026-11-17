@@ -50,7 +50,8 @@ How a single weekly run flows from cron trigger to merged data PR.
                         ▼
        action.yaml step: "Commit via PR if changes"
        (git add → blob/tree/commit via gh api →
-        branch → pull request → squash-merge → branch delete)
+        branch → pull request → squash-merge once required
+        checks pass (scripts/merge_data_pr.sh) → branch delete)
                         │
                         ▼
                     main branch

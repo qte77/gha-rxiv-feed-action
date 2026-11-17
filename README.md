@@ -22,7 +22,7 @@
 - Writes one CSV per ISO week to `./data/<server>/<year>/<isoweek>.csv`, deduped by `(ID|DOI, Version)`
 - Carries title, authors, and abstract on every row; optional Semantic Scholar citation counts for arXiv, bioRxiv and medRxiv
 - Backfills any historic window via `DATE_FROM`/`DATE_TO`
-- Opens a PR with the updated data and auto-merges it via squash
+- Opens a PR with the updated data and squash-merges it once the base branch's required checks pass
 - Cron cadence is set by the calling workflow
 
 ## How
