@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Release workflows (`publish-release`, `tag-release`) pinned to `qte77/.github` v0.1.1 in tag form
+  (`@b4674e37…  # v0.1.1`) so Dependabot can follow qte77/.github releases (qte77/.github#44 pilot);
+  the called workflow files are byte-identical to the previous pins.
+
 ### Fixed
 
 - **Data PRs merge under required status checks.** The action merged its data PR
