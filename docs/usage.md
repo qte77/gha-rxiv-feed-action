@@ -88,7 +88,7 @@ preserved exactly. `server` empty = run all three.
 
 | Name | Required | Default | Description |
 | ---- | -------- | ------- | ----------- |
-| `SERVER` | No | `arxiv` | API server: `arxiv`, `biorxiv`, `medrxiv`, or `psyarxiv`. |
+| `SERVER` | No | `arxiv` | API server: `arxiv`, `biorxiv`, `medrxiv`, `psyarxiv`, or `socarxiv`. |
 | `OUT_DIR` | No | `./data/arxiv` | Directory to write CSV output files. Convention: `./data/<server>` so multiple servers can coexist when using a matrix. |
 | `TOPICS` | No | `cat:cs.CV+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.AI+OR+cat:cs.NE+OR+cat:cs.RO` | arXiv search_query (URL-encoded, OR-joined). See [`docs/categories.md`](categories.md#arxiv). arXiv only. |
 | `INCLUDE_CITATIONS` | No | `false` | Enrich new rows with Semantic Scholar citation counts (`Citations`, `References`, `InfluentialCitations` columns). arXiv (`ARXIV:` lookup), bioRxiv/medRxiv (`DOI:` lookup). |
@@ -98,8 +98,8 @@ preserved exactly. `server` empty = run all three.
 | `DATE_TO` | No | _(empty)_ | YYYY-MM-DD upper bound. Empty = today. Server semantics mirror `DATE_FROM`. |
 | `PAGE_SIZE` | No | `1000` | arXiv pagination page size. arXiv only. |
 | `MAX_PAGES` | No | `5` | Cap on arXiv pagination pages per run. arXiv only. |
-| `DAYS` | No | `1` | Number of days back to fetch. bioRxiv/medRxiv/psyArXiv only. |
-| `CATEGORIES` | No | _(empty)_ | Comma-separated bioRxiv/medRxiv categories, or psyArXiv top-level subjects, to keep. See [`docs/categories.md`](categories.md). bioRxiv/medRxiv/psyArXiv only. |
+| `DAYS` | No | `1` | Number of days back to fetch. bioRxiv/medRxiv/psyArXiv/SocArxiv only. |
+| `CATEGORIES` | No | _(empty)_ | Comma-separated bioRxiv/medRxiv categories, or psyArXiv/SocArxiv top-level subjects, to keep. See [`docs/categories.md`](categories.md). bioRxiv/medRxiv/psyArXiv/SocArxiv only. |
 | `SEED_ONLY` | No | `false` | When `true`, skip fetching and only write a header-only CSV for the current ISO week if absent (avoids a 404 for consumers polling the in-progress week). |
 | `TOKEN` | No | `${{ github.token }}` | GitHub token for pushing changes. |
 

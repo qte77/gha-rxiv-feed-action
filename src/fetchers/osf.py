@@ -1,4 +1,4 @@
-"""OSF preprints fetcher (psyArXiv): JSON:API parsing and list-URL building.
+"""OSF preprints fetcher (psyArXiv, SocArxiv): JSON:API parsing and list-URL building.
 
 OSF-hosted preprint servers share one endpoint (``api.osf.io/v2/preprints/``)
 filtered by ``filter[provider]``. Parsing targets the default API version
@@ -6,10 +6,10 @@ filtered by ``filter[provider]``. Parsing targets the default API version
 ``{id, text}`` and the next page is ``links.next``. Rows use the bioRxiv
 schema so dedup on ``(DOI, Version)`` at ``(2, 3)`` applies unchanged.
 
-``Category`` is the ``;``-joined top-level subjects (the full 234-node
-psyArXiv taxonomy is too granular for a coarse filter). ``Authors`` is left
-empty: names live behind a per-preprint contributors relationship, and an
-N+1 lookup per row is deferred.
+``Category`` is the ``;``-joined top-level subjects (a full provider taxonomy,
+e.g. the 234-node psyArXiv one, is too granular for a coarse filter).
+``Authors`` is left empty: names live behind a per-preprint contributors
+relationship, and an N+1 lookup per row is deferred.
 """
 
 import json

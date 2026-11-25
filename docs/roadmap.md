@@ -26,10 +26,11 @@ bets.
 
 - **OSF-backed fetchers (psyArXiv + SocArxiv)** — both ride the same
   OSF JSON:API substrate (`api.osf.io`), so batch them. ~~psyArXiv
-  (issue #70)~~: `src/fetchers/osf.py`, top-level subjects as
-  `Category`, `Authors` empty. Open: SocArxiv (issue #99, one
-  `_OSF_SERVERS` entry) and an authors/N+1 strategy
-  (`docs/categories.md`).
+  (issue #70)~~ and ~~SocArxiv (issue #99)~~: `src/fetchers/osf.py`,
+  top-level subjects as `Category`, `Authors` empty; SocArxiv was one
+  `_OSF_SERVERS` entry. Open: an authors/N+1 strategy
+  (`docs/categories.md`) and adding the OSF servers to the scheduled
+  workflow matrix.
 - **chemRxiv fetcher** — *blocked*: the Figshare/ACS public API is
   Cloudflare-fronted and returns a challenge page to CI runners, so it
   can't be fetched or tested unattended. Deferred until an official
