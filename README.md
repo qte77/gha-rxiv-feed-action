@@ -44,7 +44,7 @@ matrices, backfill dispatches, the full inputs table, and versioning;
 
 Existing arXiv-digest bots post keyword matches as issues for humans to
 read, and cover arXiv only. This action instead persists a normalized,
-deduped weekly CSV across arXiv, bioRxiv, and medRxiv, so a separate
+deduped weekly CSV across arXiv, bioRxiv, medRxiv, psyArXiv, and SocArxiv, so a separate
 evaluation step can consume one schema. See
 [`docs/landscape.md`](docs/landscape.md) and
 [`docs/userstory.md`](docs/userstory.md).

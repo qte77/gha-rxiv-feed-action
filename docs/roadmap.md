@@ -10,7 +10,7 @@ bets.
 - **arXiv CSV schema alignment** (`Published`→`Date`, `ID`→`DOI`,
   `Categories`→`Category`) to match the canonical bioRxiv/medRxiv
   schema and unblock downstream consumers (paperverse, eval action).
-  Breaking → v0.3.0. Urgent (issue #107).
+  Breaking; not yet scheduled (#107).
 - ~~**Citation enrichment for bioRxiv/medRxiv DOIs** via Semantic Scholar
   `DOI:` lookups — feature parity with arXiv. Also wires the currently
   no-op `SEMANTIC_SCHOLAR_API_KEY` and routes the call through the URL

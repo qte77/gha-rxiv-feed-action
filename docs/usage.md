@@ -36,6 +36,21 @@ Default: fetch the last week of arXiv submissions in CS/AI categories.
     TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+### psyArXiv / SocArxiv
+
+Both read the OSF preprints API. `CATEGORIES` takes top-level OSF subjects
+(see [`docs/categories.md`](categories.md)), and `Authors` stays empty. Neither
+server is in the scheduled matrix, so run them as their own step.
+
+```yaml
+- uses: qte77/gha-rxiv-feed-action@v0.2.2
+  with:
+    SERVER: "psyarxiv"
+    OUT_DIR: "./data/psyarxiv"
+    CATEGORIES: "Social and Behavioral Sciences"
+    TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
 ### Multi-server matrix
 
 ```yaml
@@ -95,7 +110,7 @@ preserved exactly. `server` empty = run all three servers in its matrix
 | `INCLUDE_CITATIONS` | No | `false` | Enrich new rows with Semantic Scholar citation counts (`Citations`, `References`, `InfluentialCitations` columns). arXiv (`ARXIV:` lookup), bioRxiv/medRxiv (`DOI:` lookup). |
 | `SEMANTIC_SCHOLAR_API_KEY` | No | _(empty)_ | Optional Semantic Scholar API key, sent as the `x-api-key` header for higher rate limits. Used when `INCLUDE_CITATIONS=true`. |
 | `MAX_AGE_DAYS` | No | `7` | Skip arXiv papers published more than N days ago. Ignored when `DATE_FROM` is set. arXiv only. |
-| `DATE_FROM` | No | _(empty)_ | YYYY-MM-DD lower bound. **arXiv**: bounds `submittedDate` (empty uses `MAX_AGE_DAYS`). **bioRxiv/medRxiv**: overrides the rolling `DAYS` window (empty uses `DAYS`). Useful for backfill dispatches. |
+| `DATE_FROM` | No | _(empty)_ | YYYY-MM-DD lower bound. **arXiv**: bounds `submittedDate` (empty uses `MAX_AGE_DAYS`). **bioRxiv/medRxiv/psyArXiv/SocArxiv**: overrides the rolling `DAYS` window (empty uses `DAYS`). Useful for backfill dispatches. |
 | `DATE_TO` | No | _(empty)_ | YYYY-MM-DD upper bound. Empty = today. Server semantics mirror `DATE_FROM`. |
 | `PAGE_SIZE` | No | `1000` | arXiv pagination page size. arXiv only. |
 | `MAX_PAGES` | No | `5` | Cap on arXiv pagination pages per run. arXiv only. |
