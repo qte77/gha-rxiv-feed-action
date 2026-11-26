@@ -44,7 +44,7 @@ _ARXIV_HEADER = [
     "Authors",
     "Abstract",
 ]
-_OSF_SERVERS = frozenset({"psyarxiv"})
+_OSF_SERVERS = frozenset({"psyarxiv", "socarxiv"})
 _ARXIV_CITATIONS_HEADER = ["Citations", "References", "InfluentialCitations"]
 
 
@@ -112,7 +112,7 @@ def _run_osf(
     date_from: str = "",
     date_to: str = "",
 ) -> None:
-    """Fetch an OSF-hosted preprint server (psyArXiv) and write per-week CSVs."""
+    """Fetch an OSF-hosted preprint server (psyArXiv, SocArxiv) and write per-week CSVs."""
     existing_ids = load_all_existing_ids(out_dir)
     print(f"Loaded {len(existing_ids)} existing paper IDs from {out_dir}")
 

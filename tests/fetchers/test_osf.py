@@ -1,6 +1,8 @@
-"""OSF preprints fetcher tests (psyArXiv): JSON:API parsing, URL building."""
+"""OSF preprints fetcher tests (psyArXiv, SocArxiv): JSON:API parsing, URL building."""
 
 import json
+
+import pytest
 
 from src.fetchers.common import _validate_url
 from src.fetchers.osf import build_osf_url, parse_osf_json
@@ -92,11 +94,12 @@ def test_parse_osf_json_returns_next_link_or_none():
     assert next_url is None
 
 
-def test_build_osf_url_filters_provider_and_inclusive_date_window():
-    url = build_osf_url("psyarxiv", "2026-10-18", "2026-10-25")
+@pytest.mark.parametrize("provider", ["psyarxiv", "socarxiv"])
+def test_build_osf_url_filters_provider_and_inclusive_date_window(provider):
+    url = build_osf_url(provider, "2026-10-18", "2026-10-25")
 
     assert url.startswith("https://api.osf.io/v2/preprints/?")
-    assert "filter[provider]=psyarxiv" in url
+    assert f"filter[provider]={provider}" in url
     assert "filter[date_published][gte]=2026-10-18" in url
     assert "filter[date_published][lt]=2026-10-26" in url
     assert "page[size]=100" in url

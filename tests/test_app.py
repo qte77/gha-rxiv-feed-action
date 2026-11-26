@@ -156,6 +156,26 @@ def test_main_dispatches_psyarxiv_to_osf_fetcher(monkeypatch):
     mock_bio.assert_not_called()
 
 
+def test_main_dispatches_socarxiv_to_osf_fetcher(monkeypatch):
+    """SERVER=socarxiv routes to _run_osf with the socarxiv provider."""
+    monkeypatch.setenv("SERVER", "socarxiv")
+    monkeypatch.setenv("OUT_DIR", "./data/socarxiv-test")
+    monkeypatch.setenv("CATEGORIES", "Sociology")
+
+    with (
+        patch("src.app._run_arxiv", create=True) as mock_arxiv,
+        patch("src.app._run_biorxiv", create=True) as mock_bio,
+        patch("src.app._run_osf", create=True) as mock_osf,
+    ):
+        main()
+
+    mock_osf.assert_called_once()
+    assert mock_osf.call_args.kwargs["provider"] == "socarxiv"
+    assert mock_osf.call_args.kwargs["categories"] == {"Sociology"}
+    mock_arxiv.assert_not_called()
+    mock_bio.assert_not_called()
+
+
 def test_run_osf_follows_next_links_and_stops_on_api_error(tmp_path):
     """_run_osf paginates via links.next and keeps rows when a later page fails."""
     import json

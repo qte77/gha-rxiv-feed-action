@@ -2,8 +2,9 @@
 
 > gha-rxiv-feed-action is a GitHub Action that logs a weekly CSV feed of new
 > [arXiv](https://arxiv.org/), [bioRxiv](https://www.biorxiv.org/),
-> [medRxiv](https://www.medrxiv.org/), and
-> [PsyArXiv](https://osf.io/preprints/psyarxiv) papers for selected
+> [medRxiv](https://www.medrxiv.org/),
+> [PsyArXiv](https://osf.io/preprints/psyarxiv), and
+> [SocArxiv](https://osf.io/preprints/socarxiv) papers for selected
 > categories, for downstream paper-evaluation pipelines.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -17,8 +18,8 @@
 
 ## What
 
-- Fetches new papers from the selected `SERVER` (arXiv by default; bioRxiv, medRxiv or psyArXiv on request)
-- Filters by arXiv `TOPICS` or bioRxiv/medRxiv/psyArXiv `CATEGORIES`
+- Fetches new papers from the selected `SERVER` (arXiv by default; bioRxiv, medRxiv, psyArXiv or SocArxiv on request)
+- Filters by arXiv `TOPICS` or bioRxiv/medRxiv/psyArXiv/SocArxiv `CATEGORIES`
 - Writes one CSV per ISO week to `./data/<server>/<year>/<isoweek>.csv`, deduped by `(ID|DOI, Version)`
 - Carries title, authors, and abstract on every row; optional Semantic Scholar citation counts for arXiv, bioRxiv and medRxiv
 - Backfills any historic window via `DATE_FROM`/`DATE_TO`

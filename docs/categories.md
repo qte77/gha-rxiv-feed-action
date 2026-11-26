@@ -9,6 +9,7 @@ Status legend:
 - **canonical** — full list, verified
 - **sampled** — partial; needs full pagination from a longer-lived runner
 - **unreachable** — blocked from CI sandbox; re-run elsewhere
+- **unverified** — server wired up, category list not yet enumerated
 
 ## arXiv (canonical)
 
@@ -166,6 +167,14 @@ The 228 depth-1 children include `Cognitive Neuroscience`, `Clinical
 Psychology`, `Behavioral Economics`, `Computational Modeling`, and similar.
 Fetch the full list via the source URL above. `SERVER=psyarxiv` matches
 `CATEGORIES` against these top-level subjects only.
+
+## SocArxiv (unverified)
+
+Provider id `socarxiv`; same OSF substrate as psyArXiv, so
+`SERVER=socarxiv` matches `CATEGORIES` against top-level OSF subjects
+only. The top-level list has not been enumerated yet. Likely source, by
+analogy with psyArXiv and not yet checked:
+`https://api.osf.io/v2/preprint_providers/socarxiv/taxonomies/`.
 
 ## chemRxiv (unreachable, pending)
 

@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`SERVER=socarxiv`** (SocArxiv, OSF provider `socarxiv`) rides the OSF-generic path
+  added for psyArXiv: one `_OSF_SERVERS` entry in `src/app.py` plus the `SERVER`
+  allowlist in `src/validation.py`; `api.osf.io` was already allowlisted. Same row
+  schema and parity limits as psyArXiv (`Category` = top-level subjects, `Authors`
+  empty, no per-row N+1 lookup, no `OSF_TOKEN`). Not added to the scheduled workflow
+  matrix. `action.yaml` and the README/docs list the new server (#99).
+
 ### Changed
 
 - Release workflows (`publish-release`, `tag-release`) pinned to `qte77/.github` v0.1.1 in tag form
