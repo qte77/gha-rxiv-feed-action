@@ -10,6 +10,7 @@ Data sourced from:
 - bioRxiv: `https://api.biorxiv.org/details/biorxiv/{date1}/{date2}/{cursor}/json`
 - medRxiv: `https://api.biorxiv.org/details/medrxiv/{date1}/{date2}/{cursor}/json`
 - psyArXiv: `https://api.osf.io/v2/preprints/?filter[provider]=psyarxiv&filter[date_published][gte]={date1}&page[size]=100` (OSF JSON:API, paginated via `links.next`)
+- SocArxiv: the same OSF endpoint with `filter[provider]=socarxiv`
 
 Outbound requests are locked to an allowlist of API hosts
 (`api.biorxiv.org`, `export.arxiv.org`, `api.semanticscholar.org`, `api.osf.io`) and
@@ -29,7 +30,7 @@ The action appends new rows on each run and dedupes by
 Current schemas:
 
 - **arXiv** (9 cols): `Published, ISOWeek, Updated, ID, Version, Title, Categories, Authors, Abstract`
-- **bioRxiv / medRxiv / psyArXiv** (8 cols): `Date, ISOWeek, DOI, Version, Category, Title, Authors, Abstract`. psyArXiv `Category` is the `;`-joined top-level OSF subjects; `Authors` is empty (contributor lookup not yet implemented); `DOI` falls back to the OSF GUID when no preprint DOI is minted.
+- **bioRxiv / medRxiv / psyArXiv / SocArxiv** (8 cols): `Date, ISOWeek, DOI, Version, Category, Title, Authors, Abstract`. For psyArXiv and SocArxiv, `Category` is the `;`-joined top-level OSF subjects; `Authors` is empty (contributor lookup not yet implemented); `DOI` falls back to the OSF GUID when no preprint DOI is minted.
 
 With `INCLUDE_CITATIONS=true`, both append `Citations, References, InfluentialCitations`.
 

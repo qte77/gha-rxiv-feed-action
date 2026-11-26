@@ -12,7 +12,7 @@ on:
         description: "YYYY-MM-DD upper bound. Empty = today."
         default: ""
       server:
-        description: "Limit to one server. Empty = run all three."
+        description: "Limit to one server. Empty = run all three in the matrix (arxiv, biorxiv, medrxiv)."
         type: choice
         options: ["", "arxiv", "biorxiv", "medrxiv"]
         default: ""
