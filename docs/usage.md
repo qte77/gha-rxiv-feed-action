@@ -82,7 +82,8 @@ gh workflow run update-rxiv-feed.yaml \
 ```
 
 Defaults are empty strings, so the scheduled cron behaviour is
-preserved exactly. `server` empty = run all three.
+preserved exactly. `server` empty = run all three servers in its matrix
+(arxiv, biorxiv, medrxiv); psyarxiv and socarxiv are not in that matrix.
 
 ## Inputs
 

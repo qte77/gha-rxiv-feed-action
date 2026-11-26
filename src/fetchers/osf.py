@@ -6,8 +6,9 @@ filtered by ``filter[provider]``. Parsing targets the default API version
 ``{id, text}`` and the next page is ``links.next``. Rows use the bioRxiv
 schema so dedup on ``(DOI, Version)`` at ``(2, 3)`` applies unchanged.
 
-``Category`` is the ``;``-joined top-level subjects (a full provider taxonomy,
-e.g. the 234-node psyArXiv one, is too granular for a coarse filter).
+``Category`` is the ``;``-joined top-level subjects (a full provider taxonomy
+is too granular for a coarse filter; node counts and sources are in
+``docs/categories.md``).
 ``Authors`` is left empty: names live behind a per-preprint contributors
 relationship, and an N+1 lookup per row is deferred.
 """

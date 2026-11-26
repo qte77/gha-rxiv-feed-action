@@ -20,9 +20,9 @@ permissions:
   contents: write
 
 jobs:
-  # The reusable tag workflow exposes no outputs, so detect the bump here to
-  # gate and parameterize the publish step (and skip it on non-version
-  # pyproject.toml edits).
+  # The reusable tag workflow outputs only the tag it created, so detect the
+  # bump here first: it gates both the tag and publish jobs and gives the
+  # version (and skips non-version pyproject.toml edits).
   detect:
     runs-on: ubuntu-latest
     permissions:
