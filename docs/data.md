@@ -9,7 +9,7 @@ Data sourced from:
 - arXiv: `https://export.arxiv.org/api/query?search_query={topics}&start={n}&max_results={k}&sortBy=submittedDate` (Atom XML)
 - bioRxiv: `https://api.biorxiv.org/details/biorxiv/{date1}/{date2}/{cursor}/json`
 - medRxiv: `https://api.biorxiv.org/details/medrxiv/{date1}/{date2}/{cursor}/json`
-- psyArXiv: `https://api.osf.io/v2/preprints/?filter[provider]=psyarxiv&filter[date_published][gte]={date1}&page[size]=100` (OSF JSON:API, paginated via `links.next`)
+- psyArXiv: `https://api.osf.io/v2/preprints/?filter[provider]=psyarxiv&filter[date_published][gte]={date1}&filter[date_published][lt]={date2+1d}&page[size]=100` (OSF JSON:API, paginated via `links.next`)
 - SocArxiv: the same OSF endpoint with `filter[provider]=socarxiv`
 
 Outbound requests are locked to an allowlist of API hosts
@@ -25,12 +25,14 @@ the validator boundary. Extend `_ALLOWED_HOSTS` in
 re-rendered by `scripts/weekly_svg.sh` after each fetch; follows the
 viewer's light/dark theme via `prefers-color-scheme`.
 The action appends new rows on each run and dedupes by
-`(DOI, Version)` for bioRxiv/medRxiv or `(ID, Version)` for arXiv.
+`(DOI, Version)` for bioRxiv/medRxiv/psyArXiv/SocArxiv or `(ID, Version)` for arXiv.
+For psyArXiv and SocArxiv, `DOI` falls back to the unversioned OSF GUID when a
+preprint has no DOI.
 
 Current schemas:
 
 - **arXiv** (9 cols): `Published, ISOWeek, Updated, ID, Version, Title, Categories, Authors, Abstract`
-- **bioRxiv / medRxiv / psyArXiv / SocArxiv** (8 cols): `Date, ISOWeek, DOI, Version, Category, Title, Authors, Abstract`. For psyArXiv and SocArxiv, `Category` is the `;`-joined top-level OSF subjects; `Authors` is empty (contributor lookup not yet implemented); `DOI` falls back to the OSF GUID when no preprint DOI is minted.
+- **bioRxiv / medRxiv / psyArXiv / SocArxiv** (8 cols): `Date, ISOWeek, DOI, Version, Category, Title, Authors, Abstract`. For psyArXiv and SocArxiv, `Category` is the `;`-joined top-level OSF subjects (SocArxiv taxonomy unverified, see [categories.md](categories.md#socarxiv-unverified)); `Authors` is empty (contributor lookup not yet implemented); `DOI` falls back to the OSF GUID when no preprint DOI is minted.
 
 With `INCLUDE_CITATIONS=true`, both append `Citations, References, InfluentialCitations`.
 

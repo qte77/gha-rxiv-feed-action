@@ -34,13 +34,14 @@ inputs:
   DATE_FROM:
     description: >-
       YYYY-MM-DD lower bound. arXiv: bounds submittedDate (empty = use
-      MAX_AGE_DAYS). bioRxiv/medRxiv: overrides the rolling DAYS window
-      (empty = use DAYS). Useful for backfill dispatches.
+      MAX_AGE_DAYS). bioRxiv/medRxiv/psyArXiv/SocArxiv: overrides the rolling
+      DAYS window (empty = use DAYS). Useful for backfill dispatches.
     default: ""
   DATE_TO:
     description: >-
       YYYY-MM-DD upper bound. arXiv: bounds submittedDate (empty = today).
-      bioRxiv/medRxiv: overrides the rolling DAYS window (empty = today).
+      bioRxiv/medRxiv/psyArXiv/SocArxiv: overrides the rolling DAYS window
+      (empty = today).
     default: ""
   PAGE_SIZE:
     description: "arXiv only: results per pagination page."

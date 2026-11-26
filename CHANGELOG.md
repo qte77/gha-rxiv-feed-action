@@ -22,9 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Release workflows (`publish-release`, `tag-release`) pinned to `qte77/.github` v0.1.1 in tag form
-  (`@b4674e37…  # v0.1.1`) so Dependabot can follow qte77/.github releases (qte77/.github#44 pilot);
-  the called workflow files are byte-identical to the previous pins.
+- Release workflows (`bump-version`, `publish-release`, `tag-release`) pinned to `qte77/.github` v0.1.2
+  in tag form (`@aeef158f…  # v0.1.2`) so Dependabot can follow qte77/.github releases
+  (qte77/.github#44 pilot; #255, #262, #265). `bump-version` moved from a `main` pin to the tag; its
+  called file is unchanged.
+- Docs: the psyArXiv/SocArxiv request URL shows its `[lt]` bound, the dedup and `DATE_FROM`/`DATE_TO`
+  texts (docs and `action.yaml`) cover the OSF servers, the SocArxiv `Category` notes its unverified
+  taxonomy, and `docs/usage.md` has a psyArXiv/SocArxiv example.
 
 ### Fixed
 
